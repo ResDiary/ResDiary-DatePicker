@@ -959,9 +959,32 @@ class DayPicker extends React.PureComponent {
     );
   }
 
+  renderWeekHeader(index) {
+    const {
+      daySize,
+      horizontalMonthPadding,
+      orientation,
       renderWeekHeaderElement,
+      styles,
+    } = this.props;
 
+    const { calendarMonthWidth } = this.state;
 
+    const verticalScrollable = orientation === VERTICAL_SCROLLABLE;
+
+    const horizontalStyle = {
+      left: index * calendarMonthWidth,
+    };
+    const verticalStyle = {
+      marginLeft: -calendarMonthWidth / 2,
+    };
+
+    let weekHeaderStyle = {}; // no styles applied to the vertical-scrollable orientation
+    if (this.isHorizontal()) {
+      weekHeaderStyle = horizontalStyle;
+    } else if (this.isVertical() && !verticalScrollable) {
+      weekHeaderStyle = verticalStyle;
+    }
 
     const weekHeaders = this.getWeekHeaders();
     const header = weekHeaders.map((day) => (
@@ -969,6 +992,25 @@ class DayPicker extends React.PureComponent {
         {renderWeekHeaderElement ? renderWeekHeaderElement(day) : <small>{day}</small>}
       </li>
     ));
+
+    return (
+      <div
+        {...css(
+          styles.DayPicker_weekHeader,
+          this.isVertical() && styles.DayPicker_weekHeader__vertical,
+          verticalScrollable && styles.DayPicker_weekHeader__verticalScrollable,
+          weekHeaderStyle,
+          { padding: `0 ${horizontalMonthPadding}px` },
+        )}
+        key={`week-${index}`}
+      >
+        <ul {...css(styles.DayPicker_weekHeader_ul)}>
+          {header}
+        </ul>
+      </div>
+    );
+  }
+
   render() {
     const {
       calendarMonthWidth,
@@ -1023,6 +1065,13 @@ class DayPicker extends React.PureComponent {
     const { reactDates: { spacing: { dayPickerHorizontalPadding } } } = theme;
 
     const isHorizontal = this.isHorizontal();
+
+    const numOfWeekHeaders = this.isVertical() ? 1 : numberOfMonths;
+    const weekHeaders = [];
+    for (let i = 0; i < numOfWeekHeaders; i += 1) {
+      weekHeaders.push(this.renderWeekHeader(i));
+    }
+
     const verticalScrollable = orientation === VERTICAL_SCROLLABLE;
     let height;
     if (isHorizontal) {
@@ -1109,6 +1158,17 @@ class DayPicker extends React.PureComponent {
             )}
           >
 
+            <div
+              {...css(
+                styles.DayPicker_weekHeaders,
+                isHorizontal && styles.DayPicker_weekHeaders__horizontal,
+              )}
+              aria-hidden="true"
+              role="presentation"
+            >
+              {weekHeaders}
+            </div>
+
             <div // eslint-disable-line jsx-a11y/no-noninteractive-element-interactions
               {...css(styles.DayPicker_focusRegion)}
               ref={this.setContainerRef}
@@ -1164,7 +1224,6 @@ class DayPicker extends React.PureComponent {
                   transitionDuration={transitionDuration}
                   verticalBorderSpacing={verticalBorderSpacing}
                   horizontalMonthPadding={horizontalMonthPadding}
-                  weekDayFormat={weekDayFormat}
                 />
                 {verticalScrollable && this.renderNavigation(NEXT_NAV)}
               </div>
@@ -1255,6 +1314,50 @@ export default withStyles(({
   DayPicker_wrapper__horizontal: {
     display: 'inline-block',
     verticalAlign: 'top',
+  },
+
+  DayPicker_weekHeaders: {
+    position: 'relative',
+  },
+
+  DayPicker_weekHeaders__horizontal: {
+    marginLeft: noflip(spacing.dayPickerHorizontalPadding),
+  },
+
+  DayPicker_weekHeader: {
+    color: color.placeholderText,
+    position: 'absolute',
+    top: 62,
+    zIndex: zIndex + 2,
+    textAlign: noflip('left'),
+  },
+
+  DayPicker_weekHeader__vertical: {
+    left: noflip('50%'),
+  },
+
+  DayPicker_weekHeader__verticalScrollable: {
+    top: 0,
+    display: 'table-row',
+    borderBottom: `1px solid ${color.core.border}`,
+    background: color.background,
+    marginLeft: noflip(0),
+    left: noflip(0),
+    width: '100%',
+    textAlign: 'center',
+  },
+
+  DayPicker_weekHeader_ul: {
+    listStyle: 'none',
+    margin: '1px 0',
+    paddingLeft: noflip(0),
+    paddingRight: noflip(0),
+    fontSize: font.size,
+  },
+
+  DayPicker_weekHeader_li: {
+    display: 'inline-block',
+    textAlign: 'center',
   },
 
   DayPicker_transitionContainer: {
