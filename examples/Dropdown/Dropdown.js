@@ -2,6 +2,8 @@ import React from 'react';
 import { InputGroup, InputGroupButtonDropdown, Button, DropdownToggle, FormFeedback } from 'reactstrap';
 import DropdownMenuWrapper from './DropdownMenuWrapper'
 import '../../css/dropdown.scss'
+import Icon from './Icon'
+
 class Dropdown extends React.Component {
 
     constructor(props) {
@@ -68,7 +70,7 @@ class Dropdown extends React.Component {
                     <div key={selectedOption.text} className="btn-dark flexbox">
                         {selectedOption.text}
                         <button type="button" className="close-button" onClick={(e) => { this.onMultiSelectRemoved(e, selectedOption.value); }} aria-label="Close">
-                            <Icon src={CloseIcon} />
+                            <Icon src={"x"}/>
                         </button>
                     </div>
                 ) : "";

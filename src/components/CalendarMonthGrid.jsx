@@ -60,7 +60,6 @@ const propTypes = forbidExtraProps({
   isRTL: PropTypes.bool,
   transitionDuration: nonNegativeInteger,
   verticalBorderSpacing: nonNegativeInteger,
-  weekDayFormat: PropTypes.string,
 
   // i18n
   monthFormat: PropTypes.string,
@@ -99,7 +98,6 @@ const defaultProps = {
 
   // i18n
   monthFormat: 'MMMM YYYY', // english locale
-  weekDayFormat: 'dd',
   phrases: CalendarDayPhrases,
   dayAriaLabelFormat: undefined,
 };
@@ -267,7 +265,6 @@ class CalendarMonthGrid extends React.PureComponent {
       transitionDuration,
       verticalBorderSpacing,
       setMonthTitleHeight,
-      weekDayFormat,
     } = this.props;
 
     const { months } = this.state;
@@ -358,8 +355,6 @@ class CalendarMonthGrid extends React.PureComponent {
                 dayAriaLabelFormat={dayAriaLabelFormat}
                 verticalBorderSpacing={verticalBorderSpacing}
                 horizontalMonthPadding={horizontalMonthPadding}
-                numberOfMonths={numberOfMonths}
-                weekDayFormat={weekDayFormat}
               />
             </div>
           );

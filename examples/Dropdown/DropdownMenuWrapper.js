@@ -1,5 +1,6 @@
 import React, {Fragment} from 'react'
 import {Input, InputGroup, InputGroupAddon, DropdownMenu, DropdownItem} from 'reactstrap'
+import Icon from './Icon'
 
 class DropdownMenuWrapper extends React.Component {
     constructor(props) {
@@ -64,9 +65,6 @@ class DropdownMenuWrapper extends React.Component {
         // Include search bar in the dropdown menu or not
         const dropdownOptions = this.props.isSearchable ?
             [<InputGroup key={1}>
-                <InputGroupAddon addonType="prepend">
-                    <Icon src={SearchIcon} />
-                </InputGroupAddon>
                 <Input autoFocus type="text" onBlur={this.props.endEdit} onClick={(e) => { e.stopPropagation(); }}
                     placeholder={window.rd.commonReact.resources.typeToSearch} onChange={(e) => this.props.filterSearch(e.target.value)} />
              </InputGroup>] : [];
