@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
 import momentPropTypes from 'react-moment-proptypes';
 import moment from 'moment';
@@ -10,6 +10,9 @@ import { SingleDatePickerPhrases } from '../src/defaultPhrases';
 import SingleDatePickerShape from '../src/shapes/SingleDatePickerShape';
 import { HORIZONTAL_ORIENTATION, ANCHOR_LEFT } from '../src/constants';
 import isInclusivelyAfterDay from '../src/utils/isInclusivelyAfterDay';
+import Dropdown from '../examples/Dropdown/Dropdown'
+import Option from '../examples/Dropdown/Option'
+import { Button } from 'reactstrap';
 
 const propTypes = {
   // example props for the demo
@@ -88,6 +91,8 @@ class SingleDatePickerWrapper extends React.Component {
 
     this.onDateChange = this.onDateChange.bind(this);
     this.onFocusChange = this.onFocusChange.bind(this);
+    this.renderMonthElement = this.renderMonthElement.bind(this);
+    this.returnMonths = this.returnMonths.bind(this);
   }
 
   onDateChange(date) {
@@ -97,6 +102,33 @@ class SingleDatePickerWrapper extends React.Component {
   onFocusChange({ focused }) {
     this.setState({ focused });
   }
+
+  renderMonthElement (){
+    return ( <div className="month-and-year-selector">
+    <div className="month-selector">
+        <Dropdown
+            options={this.returnMonths()}
+            isLoading={this.props.isLoading}
+            skeletonWidth={130}
+            flip={false}
+        />
+    </div>
+    <div className="year-selector">
+        <Dropdown
+            options={this.returnMonths()}
+            isLoading={this.props.isLoading}
+            skeletonWidth={130}
+            flip={false}
+        />
+    </div>
+</div>);
+  }
+
+  returnMonths() {
+    return moment.months().map((label, value) => {
+        return new Option(label, value);
+    });
+}
 
   render() {
     const { focused, date } = this.state;
@@ -109,14 +141,15 @@ class SingleDatePickerWrapper extends React.Component {
     ]);
 
     return (
-      <SingleDatePicker
-        {...props}
-        id="date_input"
-        date={date}
-        focused={focused}
-        onDateChange={this.onDateChange}
-        onFocusChange={this.onFocusChange}
-      />
+        <SingleDatePicker
+          {...props}
+          id="date_input"
+          date={date}
+          focused={focused}
+          onDateChange={this.onDateChange}
+          onFocusChange={this.onFocusChange}
+          renderMonthElement={this.renderMonthElement}
+        />     
     );
   }
 }

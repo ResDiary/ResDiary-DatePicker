@@ -62,6 +62,12 @@ storiesOf('SDP - Calendar Props', module)
       autoFocus
     />
   )))
+  .add('single month with RD year and month dropdown', withInfo()(() => (
+    <SingleDatePickerWrapper
+      numberOfMonths={1}
+      autoFocus
+    />
+  )))
   .add('with custom day size', withInfo()(() => (
     <SingleDatePickerWrapper daySize={50} autoFocus />
   )))
