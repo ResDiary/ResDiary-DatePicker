@@ -51,12 +51,12 @@
   },
   "homepage": "https://github.com/ResDiary/ResDiary-DatePicker#readme",
   "engines": {
-    "node": ">=18.0.0",
-    "npm": ">=9.0.0"
+    "node": "24.15.0",
+    "npm": "11.13.0"
   },
   "volta": {
-    "node": "22.22.2",
-    "npm": "10.9.8"
+    "node": "24.15.0",
+    "npm": "11.13.0"
   },
   "devDependencies": {
     "@babel/cli": "^7.1.2",
