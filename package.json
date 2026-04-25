@@ -50,6 +50,14 @@
     "url": "https://github.com/airbnb/react-dates/issues"
   },
   "homepage": "https://github.com/ResDiary/ResDiary-DatePicker#readme",
+  "engines": {
+    "node": "24.15.0",
+    "npm": "11.13.0"
+  },
+  "volta": {
+    "node": "24.15.0",
+    "npm": "11.13.0"
+  },
   "devDependencies": {
     "@babel/cli": "^7.1.2",
     "@babel/core": "^7.1.2",
